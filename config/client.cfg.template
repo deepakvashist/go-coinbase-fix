@@ -1,5 +1,5 @@
 [DEFAULT]
-SocketConnectHost=localhost
+SocketConnectHost=fix-public.sandbox.exchange.coinbase.com
 SocketConnectPort=4198
 SocketInsecureSkipVerify=Y
 HeartBtInt=30
