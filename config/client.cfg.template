@@ -1,0 +1,12 @@
+[DEFAULT]
+SocketConnectHost=localhost
+SocketConnectPort=4198
+SocketInsecureSkipVerify=Y
+HeartBtInt=30
+SenderCompID=<COINBASE_API_KEY>
+TargetCompID=Coinbase
+ResetOnLogon=Y
+FileLogPath=logs/fix
+
+[SESSION]
+BeginString=FIX.4.2

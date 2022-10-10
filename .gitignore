@@ -1,0 +1,8 @@
+*.code-workspace
+.DS_Store
+.idea/*
+coverage.html
+coverage.out
+*.pem
+client.cfg
+logs/*
