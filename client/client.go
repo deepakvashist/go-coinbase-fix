@@ -3,10 +3,13 @@ package client
 import (
 	"github.com/quickfixgo/quickfix"
 	"github.com/quickfixgo/quickfix/enum"
+	"github.com/quickfixgo/quickfix/fix42/heartbeat"
 	"go.uber.org/zap"
 )
 
-type application struct{}
+type application struct {
+	MessageRouter *quickfix.MessageRouter
+}
 
 func (app *application) OnCreate(sessionID quickfix.SessionID) {
 	zap.L().Info("received OnCreate message", zap.Any("session_id", sessionID))
@@ -68,5 +71,11 @@ func (app *application) FromApp(
 }
 
 func NewClient() quickfix.Application {
-	return &application{}
+	app := application{
+		MessageRouter: quickfix.NewMessageRouter(),
+	}
+
+	app.MessageRouter.AddRoute(heartbeat.Route(onHeartBeat))
+
+	return &app
 }

@@ -20,38 +20,28 @@ func main() {
 	//nolint: errcheck // disable log sync error validation
 	defer logger.Sync()
 
-	cfg, err := os.Open("config/client.cfg")
-	if err != nil {
-		zap.L().Error("fix config file error", zap.Error(err))
-		return
-	}
-
-	appSettings, err := quickfix.ParseSettings(cfg)
-	if err != nil {
-		zap.L().Error("quickfix parse settings error", zap.Error(err))
-		return
-	}
-
-	fileLogFactory, err := quickfix.NewFileLogFactory(appSettings)
-	if err != nil {
-		zap.L().Error("quickfix new filelog factory error", zap.Error(err))
-		return
-	}
+	fixLogFactory := quickfix.NewScreenLogFactory()
+	fixConfigFile, _ := os.Open("config/client.cfg")
+	fixSettings, _ := quickfix.ParseSettings(fixConfigFile)
 
 	app := client.NewClient()
 
-	initiator, err := quickfix.NewInitiator(
+	fixAcceptor, err := quickfix.NewInitiator(
 		app,
 		quickfix.NewMemoryStoreFactory(),
-		appSettings,
-		fileLogFactory,
+		fixSettings,
+		fixLogFactory,
 	)
 	if err != nil {
 		zap.L().Error("quickfix initiator error", zap.Error(err))
 		return
 	}
 
-	initiator.Start()
+	err = fixAcceptor.Start()
+	if err != nil {
+		zap.L().Error("quickfix initiator start error", zap.Error(err))
+		return
+	}
 
 	ctx, ctxCancel := context.WithCancel(context.Background())
 	go func() {
@@ -63,8 +53,8 @@ func main() {
 	for {
 		select {
 		case <-ctx.Done():
-			zap.L().Info("stop fix initiator")
-			initiator.Stop()
+			zap.L().Info("closing fix initiator")
+			fixAcceptor.Stop()
 			return
 		default:
 		}
