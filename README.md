@@ -1,6 +1,6 @@
-# go-fix
+# go-coinbase-fix
 
-Golang sample project for testing [FIX protocol](http://www.fixprotocol.org/) APIs.
+Golang sample project for testing Coinbase [FIX](http://www.fixprotocol.org/) API.
 
 ## Usage
 
