@@ -1,4 +1,4 @@
-module github.com/deepakvashist/go-fix
+module github.com/deepakvashist/go-coinbase-fix
 
 go 1.18
 

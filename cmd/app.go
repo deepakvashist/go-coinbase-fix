@@ -6,7 +6,7 @@ import (
 	"os"
 	"os/signal"
 
-	"github.com/deepakvashist/go-fix/client"
+	"github.com/deepakvashist/go-coinbase-fix/client"
 	"github.com/quickfixgo/quickfix"
 	"go.uber.org/zap"
 )
